@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JO & SNO MINING — Trading Desk (Crypto & Metals Day Trading)</title>
+<meta name="description" content="JO & SNO MINING Trading Desk — crypto and metals day trading: breakout strategies, SMA crossover signal panels, low-balance ECN execution, webhook router, live converter.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="JO & SNO MINING — Trading Desk">
+<meta property="og:description" content="Breakout strategies · SMA crossover signals · low-balance ECN · webhook router · live converter">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23030712'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Teko,system-ui,sans-serif' font-size='18' font-weight='700' fill='%233b82f6' letter-spacing='1'>JT</text></svg>">
+<style>
+  /* ── Reset & base (Rams theme — same as main site) ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --background:   hsl(240 10% 4%);
+    --foreground:   hsl(0 0% 95%);
+    --card:         hsl(240 10% 7%);
+    --card-fg:      hsl(0 0% 95%);
+    --card-border:  hsl(240 10% 12%);
+    --border:       hsl(240 10% 15%);
+    --muted:        hsl(240 10% 12%);
+    --muted-fg:     hsl(240 5% 62%);
+    --primary:      hsl(0 0% 100%);
+    --primary-fg:   hsl(240 10% 4%);
+    --secondary:    hsl(240 10% 12%);
+    --secondary-fg: hsl(0 0% 95%);
+    --accent:       hsl(224 92% 52%);     /* blue — Rams-style accent */
+    --accent-fg:    hsl(0 0% 100%);
+    --destructive:  hsl(345 100% 48%);
+    --destructive-fg: hsl(0 0% 100%);
+    --input:        hsl(240 10% 15%);
+    --ring:         hsl(240 10% 28%);
+    --shadow-2xs:   0px 2px 0px 0px hsl(0 0% 0% / 0.5);
+    --shadow-xs:    0px 2px 0px 0px hsl(0 0% 0% / 0.5);
+    --shadow-sm:    0px 2px 0px 0px hsl(0 0% 0% / 0.5), 0px 1px 2px -1px hsl(0 0% 0% / 0.5);
+    --shadow:       0px 2px 0px 0px hsl(0 0% 0% / 0.5), 0px 1px 2px -1px hsl(0 0% 0% / 0.5);
+    --shadow-md:    0px 2px 0px 0px hsl(0 0% 0% / 0.5), 0px 2px 4px -1px hsl(0 0% 0% / 0.5);
+    --shadow-lg:    0px 2px 0px 0px hsl(0 0% 0% / 0.5), 0px 4px 6px -1px hsl(0 0% 0% / 0.5);
+    --radius:       0.5rem;
+    --app-font-sans:   'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --app-font-display:'Teko', system-ui, sans-serif;
+    --container-sm: 24rem; --container-md: 28rem; --container-lg: 32rem;
+    --container-xl: 36rem; --container-2xl: 42rem; --container-3xl: 48rem;
+    --container-5xl: 64rem; --container-6xl: 72rem;
+    --text-xs: .75rem; --text-sm: .875rem; --text-base: 1rem;
+    --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem; --text-4xl: 2.25rem; --text-5xl: 3rem;
+    --text-6xl: 3.75rem; --text-7xl: 4.5rem; --text-8xl: 6rem;
+    --tracking-wide: .025em;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--app-font-sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--app-font-display);
+    --tw-tracking: var(--tracking-wide);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  code, kbd, pre, samp { font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace; }
+
+  .container { width: 100%; max-width: var(--container-6xl); margin-inline: auto; padding-inline: 1.5rem; }
+
+  .glow-blue  { box-shadow: 0 0 20px 2px hsl(212 92% 43% / 0.4); }
+  .glow-red   { box-shadow: 0 0 20px 2px hsl(345 100% 45% / 0.4); }
+  .text-glow-blue  { text-shadow: 0 0 10px hsl(212 92% 43% / 0.8); }
+  .text-glow-red   { text-shadow: 0 0 10px hsl(345 100% 45% / 0.8); }
+
+  /* ── Nav ── */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(12px);
+    background: hsl(240 10% 4% / 0.78);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 1rem 0;
+    flex-wrap: wrap;
+  }
+  .brand {
+    font-family: var(--app-font-display);
+    font-size: 1.5rem; font-weight: 700;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: .5rem;
+    text-shadow: 0 0 12px hsl(212 92% 52% / 0.5);
+  }
+  .brand .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 14px var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .45; transform: scale(.72); }
+  }
+  .brand .accent { color: var(--accent); }
+  nav.links { margin-left: auto; display: flex; gap: .25rem; flex-wrap: wrap; }
+  nav.links a {
+    padding: .5rem .9rem;
+    border-radius: 999px;
+    font-size: .8rem; font-weight: 500;
+    color: var(--muted-fg);
+    transition: background .15s, color .15s, border-color .15s;
+    font-family: var(--app-font-sans);
+    border: 1px solid transparent;
+  }
+  nav.links a:hover {
+    background: hsl(240 10% 12% / 0.6);
+    color: var(--foreground);
+  }
+  nav.links a.active { color: var(--accent); border-color: hsl(212 92% 52% / 0.25); }
+  nav.links a.back {
+    color: var(--accent);
+    border-color: hsl(212 92% 52% / 0.2);
+    background: hsl(212 92% 52% / 0.06);
+    font-weight: 600;
+  }
+  nav.links a.back:hover {
+    background: hsl(212 92% 52% / 0.12);
+    box-shadow: 0 0 14px hsl(212 92% 52% / 0.2);
+  }
+
+  /* ── Hero ── */
+  .hero { padding: 5rem 0 3rem; text-align: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .75rem; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent);
+    background: hsl(212 92% 52% / 0.08);
+    border: 1px solid hsl(212 92% 52% / 0.25);
+    padding: .4rem 1rem; border-radius: 999px;
+    margin-bottom: 1.25rem;
+    font-family: var(--app-font-sans);
+  }
+  .eyebrow .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    margin-bottom: 1rem;
+  }
+  .hero h1 .red {
+    color: var(--destructive);
+    text-shadow: 0 0 20px hsl(345 100% 45% / 0.5);
+  }
+  .hero h1 .blue {
+    color: var(--accent);
+    text-shadow: 0 0 20px hsl(212 92% 52% / 0.5);
+  }
+  .hero .sub {
+    max-width: 640px; margin: 0 auto 1.5rem;
+    color: var(--muted-fg); font-size: 1.1rem;
+    font-family: var(--app-font-sans);
+  }
+  .hero .meta-row {
+    display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+    margin-top: 2rem; color: var(--muted-fg); font-size: .92rem;
+    font-family: var(--app-font-sans);
+  }
+  .meta-row strong { color: var(--foreground); }
+
+  /* ── Section frame ── */
+  section { padding: 3rem 0; border-top: 1px solid var(--border); }
+  section:first-of-type { border-top: none; }
+  .section-head {
+    display: flex; align-items: baseline; gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .section-head h2 {
+    font-size: 1.875rem;
+  }
+  .section-head .num {
+    font-size: .75rem; font-weight: 600;
+    color: var(--accent);
+    background: hsl(212 92% 52% / 0.1);
+    border: 1px solid hsl(212 92% 52% / 0.25);
+    padding: .2rem .7rem; border-radius: 6px;
+    font-family: var(--app-font-sans);
+    letter-spacing: .08em;
+  }
+
+  /* ── Two-col layout ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem; align-items: start;
+  }
+  @media (max-width: 760px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Cards ── */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.1rem;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .card.blue { border-top: 3px solid var(--accent); }
+  .card.red  { border-top: 3px solid var(--destructive); }
+  .card .icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: grid; place-items: center;
+    background: hsl(212 92% 52% / 0.08);
+    color: var(--accent); font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .card.red .icon { background: hsl(345 100% 45% / 0.08); color: var(--destructive); }
+  .card h3 { font-size: 1.25rem; margin-bottom: .4rem; }
+  .card p { color: var(--muted-fg); font-size: .95rem; }
+  .card .tag {
+    display: inline-block; margin-top: .75rem;
+    font-size: .7rem; font-weight: 600;
+    padding: .2rem .6rem; border-radius: 4px;
+    background: hsl(142 70% 45% / 0.12);
+    color: hsl(142 70% 45%);
+    font-family: var(--app-font-sans);
+    letter-spacing: .04em;
+  }
+  .card.red .tag { background: hsl(345 100% 45% / 0.12); color: var(--destructive); }
+  .card.blue .tag { background: hsl(212 92% 52% / 0.12); color: var(--accent); }
+
+  /* ── Team cards (Blue / Red) ── */
+  .team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+    margin-top: 1.4rem;
+  }
+  @media (max-width: 760px) { .team-grid { grid-template-columns: 1fr; } }
+  .team-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.6rem 1.6rem 1.8rem;
+    box-shadow: var(--shadow-lg);
+    position: relative; overflow: hidden;
+  }
+  .team-card .accent-line {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--destructive));
+  }
+  .team-card .label {
+    font-size: .7rem; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .7rem;
+    font-family: var(--app-font-sans);
+  }
+  .team-card.red .label { color: var(--destructive); }
+  .team-card h3 {
+    font-size: 1.45rem; font-weight: 800;
+    letter-spacing: -.01em; margin-bottom: .65rem;
+    line-height: 1.1;
+  }
+  .team-card.blue h3 { color: var(--accent); text-shadow: 0 0 14px hsl(212 92% 52% / 0.3); }
+  .team-card.red  h3 { color: var(--destructive); text-shadow: 0 0 14px hsl(345 100% 45% / 0.3); }
+  .team-card p { color: var(--muted-fg); font-size: .92rem; margin-bottom: 1.1rem; }
+  .team-card .stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: .7rem;
+  }
+  .team-card .stat {
+    background: rgba(0,0,0,.22);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: .5rem .7rem;
+  }
+  .team-card .stat .v {
+    font-size: 1rem; font-weight: 700;
+    color: var(--foreground);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  .team-card .stat .l {
+    font-size: .6rem; color: var(--muted-fg);
+    text-transform: uppercase; letter-spacing: .06em;
+    margin-top: .1rem;
+    font-family: var(--app-font-sans);
+  }
+  .team-card .stat .v.blue { color: var(--accent); }
+  .team-card .stat .v.red  { color: var(--destructive); }
+
+  /* ── Stats grid ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: .9rem;
+    margin-top: 1.4rem;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 11px;
+    padding: 1.2rem 1rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+  }
+  .stat-card .v {
+    font-size: 1.8rem; font-weight: 800;
+    color: var(--accent);
+    text-shadow: 0 0 12px hsl(212 92% 52% / 0.3);
+    margin-bottom: .2rem;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  .stat-card.red .v { color: var(--destructive); text-shadow: 0 0 12px hsl(345 100% 45% / 0.3); }
+  .stat-card .l {
+    font-size: .68rem; color: var(--muted-fg);
+    text-transform: uppercase; letter-spacing: .08em;
+    font-weight: 600;
+    font-family: var(--app-font-sans);
+  }
+
+  /* ── Services list ── */
+  .services-list {
+    list-style: none;
+    display: grid; gap: .6rem;
+  }
+  .services-list li {
+    display: flex; align-items: center; gap: .75rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: .85rem 1.1rem;
+    font-weight: 500;
+    font-size: .92rem;
+    box-shadow: var(--shadow-xs);
+    font-family: var(--app-font-sans);
+  }
+  .services-list li::before {
+    content: '✓';
+    color: hsl(142 70% 45%);
+    font-weight: 700;
+    width: 22px; height: 22px; display: grid; place-items: center;
+    background: hsl(142 70% 45% / 0.1);
+    border-radius: 50%;
+    font-size: .8rem;
+    flex-shrink: 0;
+  }
+
+  /* ── Tokens table ── */
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .token-card {
+    display: flex; align-items: center; gap: 1rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .token-card:hover {
+    border-color: hsl(212 92% 52% / 0.5);
+    box-shadow: var(--shadow-md);
+  }
+  .token-card .logo {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--muted);
+    object-fit: cover;
+    border: 1px solid var(--border);
+  }
+  .token-card .info { flex: 1; min-width: 0; }
+  .token-card .info h4 {
+    font-size: 1rem; font-weight: 700;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: var(--app-font-sans);
+    text-transform: none; letter-spacing: 0;
+  }
+  .token-card .info .chain {
+    font-size: .75rem; color: var(--muted-fg);
+    text-transform: uppercase; letter-spacing: .06em;
+    font-family: var(--app-font-sans);
+  }
+  .token-card .info .addr {
+    font-size: .7rem; color: var(--muted-fg);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    word-break: break-all; margin-top: .25rem;
+  }
+  .token-card .visits {
+    color: var(--accent); font-weight: 600; font-size: .95rem;
+    text-shadow: 0 0 8px hsl(212 92% 52% / 0.4);
+  }
+  .token-card .visits.red { color: var(--destructive); text-shadow: 0 0 8px hsl(345 100% 45% / 0.4); }
+
+  /* ── Converter panel (Rams-themed terminal extension) ── */
+  .converter-wrap {
+    margin-top: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .converter-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: hsl(240 10% 7% / 0.8);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: .7rem; letter-spacing: .06em;
+    color: var(--muted-fg);
+    text-transform: uppercase;
+  }
+  .converter-bar .led {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 10px var(--accent);
+    transition: background .2s, box-shadow .2s;
+  }
+  .converter-bar .led.off {
+    background: var(--muted-fg); box-shadow: none;
+  }
+  .converter-bar .spacer { flex: 1; }
+  .converter-bar .title {
+    color: var(--accent); font-weight: 600;
+    letter-spacing: .1em;
+    text-shadow: 0 0 8px hsl(212 92% 52% / 0.4);
+  }
+  .converter-body { padding: 20px 22px 22px; }
+
+  .conv-fields {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 14px; align-items: end;
+  }
+  @media (max-width: 560px) {
+    .conv-fields { grid-template-columns: 1fr; gap: 10px; }
+    .conv-swap { align-self: center; }
+  }
+  .conv-field { display: flex; flex-direction: column; gap: 6px; }
+  .conv-field label {
+    font-size: .65rem; color: var(--muted-fg);
+    letter-spacing: .08em; text-transform: uppercase;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-weight: 600;
+  }
+  .conv-field input, .conv-field select {
+    background: hsl(240 10% 4% / 0.6);
+    border: 1px solid var(--border);
+    color: var(--foreground);
+    padding: .65rem .75rem;
+    border-radius: 6px;
+    font-size: .95rem; font-family: inherit;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    width: 100%;
+  }
+  .conv-field input:focus, .conv-field select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px hsl(212 92% 52% / 0.18),
+                0 0 14px hsl(212 92% 52% / 0.1);
+  }
+  .conv-field select {
+    appearance: none; cursor: pointer;
+    background-image: linear-gradient(45deg, transparent 50%, var(--muted-fg) 50%),
+                     linear-gradient(135deg, var(--muted-fg) 50%, transparent 50%);
+    background-position: calc(100% - 14px) 50%, calc(100% - 10px) 50%;
+    background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+    padding-right: 30px;
+    background-color: hsl(240 10% 4% / 0.6);
+  }
+  .conv-field .sub { font-size: .7rem; color: var(--muted-fg); }
+  .conv-swap {
+    align-self: end;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: hsl(240 10% 4% / 0.6);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; transition: .15s;
+    box-shadow: var(--shadow-xs);
+  }
+  .conv-swap:hover {
+    border-color: var(--accent);
+    color: var(--primary);
+    background: hsl(212 92% 52% / 0.1);
+    box-shadow: 0 0 16px hsl(212 92% 52% / 0.25);
+  }
+  .conv-result {
+    margin-top: 14px;
+    padding: .8rem 1rem;
+    background: hsl(240 10% 4% / 0.6);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    min-height: 5rem;
+  }
+  .conv-result .big {
+    font-size: 1.3rem; color: var(--accent); font-weight: 600;
+    word-break: break-all;
+    text-shadow: 0 0 8px hsl(212 92% 52% / 0.3);
+  }
+  .conv-result .rate { color: var(--muted-fg); font-size: .75rem; margin-top: 4px; }
+  .conv-result .rate b { color: var(--foreground); }
+  .conv-btn {
+    margin-top: 12px; width: 100%;
+    padding: .65rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: hsl(240 10% 4% / 0.6);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: .04em;
+    font-size: .85rem;
+    transition: .15s;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    text-transform: uppercase;
+  }
+  .conv-btn:hover {
+    background: hsl(212 92% 52% / 0.12);
+    color: var(--primary);
+    box-shadow: 0 0 18px hsl(212 92% 52% / 0.2);
+  }
+  .conv-quote {
+    margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .conv-quote .q {
+    background: hsl(240 10% 4% / 0.6);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: .6rem .75rem;
+  }
+  .conv-quote .q .k {
+    font-size: .65rem; color: var(--muted-fg);
+    text-transform: uppercase; letter-spacing: .06em;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  .conv-quote .q .v {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: .8rem; margin-top: 2px;
+  }
+  .conv-quote .q .v.up   { color: hsl(142 70% 45%); }
+  .conv-quote .q .v.dn   { color: var(--destructive); }
+  .conv-leader { margin-top: 16px; }
+  .conv-leader h3 {
+    font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted-fg); margin-bottom: 8px; font-weight: 600;
+    font-family: var(--app-font-display);
+  }
+  .conv-leader .list {
+    max-height: 190px; overflow: auto;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: .8rem;
+    color: var(--foreground);
+  }
+  .conv-leader .list .row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0; border-bottom: 1px solid var(--border);
+  }
+  .conv-leader .list .row.top {
+    font-weight: 600; color: var(--accent);
+    text-shadow: 0 0 8px hsl(212 92% 52% / 0.3);
+  }
+  .conv-leader .list .row .sym { color: var(--foreground); font-weight: 600; }
+  .conv-leader .list .row .name { color: var(--muted-fg); margin-left: 6px; }
+  .conv-leader .list .row .price { color: var(--foreground); }
+  .conv-leader .list .row .chg { font-family: inherit; }
+  .conv-leader .list .row .chg.up   { color: hsl(142 70% 45%); }
+  .conv-leader .list .row .chg.dn   { color: var(--destructive); }
+
+  .toast {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: hsl(240 10% 7%); border: 1px solid var(--accent); color: var(--accent);
+    padding: .6rem 1rem; border-radius: 6px; font-size: .75rem;
+    opacity: 0; transition: .25s; pointer-events: none;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    z-index: 100;
+    box-shadow: 0 0 14px hsl(212 92% 52% / 0.2);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 600px) {
+    .nav { gap: .75rem; }
+    nav.links a { padding: .4rem .7rem; font-size: .75rem; }
+    .hero { padding: 3.5rem 0 2rem; }
+    section { padding: 2rem 0; }
+    .conv-quote { grid-template-columns: 1fr; }
+    .brand { font-size: 1.25rem; }
+    nav.links { gap: .15rem; }
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<header>
+  <div class="container nav">
+    <div class="brand glow-blue"><span class="dot"></span>JO &amp; SNO <span class="accent">MINING</span></div>
+    <nav class="links" aria-label="Primary">
+      <a href="jo-n-sno-mining_rms.html" class="back" target="_blank">← Main Site</a>
+      <a href="#overview"     class="active">Overview</a>
+      <a href="#strategies"   class="active" style="border-color:hsl(212 92% 52% / 0.25)">Strategies</a>
+      <a href="#signals">Signals</a>
+      <a href="#performance">Performance</a>
+      <a href="#tools">Tools</a>
+      <a href="#tokens">Tokens</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="home">
+  <div class="container hero">
+    <span class="eyebrow"><span class="pulse"></span> Crypto · Metals · ECN · Breakout · SMA Crossover</span>
+    <h1><span class="red">DAY</span> TRADING <span class="blue">DESK</span></h1>
+    <p class="sub">
+      The JO &amp; SNO MINING trading extension — crypto and metals day trading built around
+      breakout strategies, SMA crossover signal panels, low-balance ECN execution at 0.01 lots,
+      and a free live crypto converter.
+    </p>
+    <div class="meta-row">
+      <span>🔹 <strong>Crypto</strong></span>
+      <span>🔹 <strong>Metals</strong></span>
+      <span>🔹 <strong>ECN</strong></span>
+      <span>🔹 <strong>Breakout</strong></span>
+      <span>🔹 <strong>SMA Crossover</strong></span>
+      <span>🔹 <strong>0.01 Lot</strong></span>
+      <span>🔹 <strong>Live Converter</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">01</span>
+      <h2>Overview</h2>
+    </div>
+    <div class="two-col">
+      <div class="about-text">
+        <p><strong>JO &amp; SNO MINING Trading Desk</strong> runs breakout strategies across crypto and metals — XAUUSD, BTC, ETH — with automated EAs, Pine Script signal panels, and a signal-to-webhook router.</p>
+        <p>Everything is built for the everyday trader: low-balance ECN sizing, 3 trades/day cap, 45-minute auto-close, trailing stops from profit, and daily/weekly breakout logic with SMA crossover overlay.</p>
+        <p style="margin-top:.8rem">Free live converter, no API key, 200+ coins supported. This page is the <a href="jo-n-sno-mining_trading_rms.html" style="color:var(--accent)">Trading Desk</a> extension of the main JO &amp; SNO MINING site.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card blue">
+          <div class="icon">📈</div>
+          <h3>Breakout Strategies</h3>
+          <p>SMA crossover overlays on breakout logic, 10/30 fast/slow, ML Optimal RSI, daily + weekly regime.</p>
+          <span class="tag blue">Signals</span>
+        </div>
+        <div class="card red">
+          <div class="icon">⚙️</div>
+          <h3>Low-Balance ECN</h3>
+          <p>0.01 lot sizing, 3 trades/day, 45-min auto-close, trailing SL from profit, ECN-friendly.</p>
+          <span class="tag red">Execution</span>
+        </div>
+        <div class="card">
+          <div class="icon">🔌</div>
+          <h3>Multi-Platform Signals</h3>
+          <p>Same strategy across Pine Script, MT5 indicator, and a standalone web dashboard.</p>
+          <span class="tag">Signals</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STRATEGIES ═══════════ -->
+<section id="strategies">
+  <div class="container">
+    <div class="section-head">
+      <span class="num" style="color:var(--destructive);background:hsl(345 100% 45% / 0.1);border-color:hsl(345 100% 45% / 0.25)">02</span>
+      <h2>Strategies</h2>
+    </div>
+
+    <p style="color:var(--muted-fg);max-width:700px;margin-bottom:1.2rem">
+      Two desks. One legacy. <span style="color:var(--accent);font-weight:600">Blue Desk</span> handles intraday breakout and signal strategy;
+      <span style="color:var(--destructive);font-weight:600">Red Desk</span> handles low-balance ECN execution and risk rules.
+    </p>
+
+    <div class="team-grid">
+      <div class="team-card blue">
+        <div class="accent-line"></div>
+        <div class="label">Blue Desk · Strategy</div>
+        <h3>Breakout + SMA Crossover</h3>
+        <p>Daily/weekly breakout logic with SMA crossover overlay (10/30), ML Optimal RSI layer (OB 70 / OS 30), and BUY/SELL markers on chart.</p>
+        <p>Signals fire on SMA crossover and RSI OB/OS cross. Four alert conditions emit JSON for the webhook router.</p>
+        <div class="stats">
+          <div class="stat"><div class="v blue">10/30</div><div class="l">SMA fast/slow</div></div>
+          <div class="stat"><div class="v blue">26</div><div class="l">ML Optimal RSI</div></div>
+          <div class="stat"><div class="v blue">4</div><div class="l">Alert conditions</div></div>
+          <div class="stat"><div class="v blue">3</div><div class="l">Platforms</div></div>
+        </div>
+      </div>
+
+      <div class="team-card red">
+        <div class="accent-line"></div>
+        <div class="label" style="color:var(--destructive)">Red Desk · Execution</div>
+        <h3>Low-Balance ECN</h3>
+        <p>0.01 lot sizing on ECN accounts, 3 trades/day cap, 45-minute auto-close, trailing stop from profit.</p>
+        <p>Built for low-balance accounts — small size, tight risk, no overleveraging. Three assets: XAUUSD, BTC, ETH.</p>
+        <div class="stats">
+          <div class="stat"><div class="v red">0.01</div><div class="l">Lot size</div></div>
+          <div class="stat"><div class="v red">3</div><div class="l">Trades / day</div></div>
+          <div class="stat"><div class="v red">45m</div><div class="l">Auto-close</div></div>
+          <div class="stat"><div class="v red">3</div><div class="l">Assets</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card"><div class="v">3</div><div class="l">Live EAs</div></div>
+      <div class="stat-card blue"><div class="v">3</div><div class="l">Pine signal panels</div></div>
+      <div class="stat-card red"><div class="v">0.01</div><div class="l">Lot / ECN</div></div>
+      <div class="stat-card"><div class="v">45m</div><div class="l">Auto-close</div></div>
+      <div class="stat-card red"><div class="v">3/day</div><div class="l">Trade cap</div></div>
+      <div class="stat-card blue"><div class="v">200+</div><div class="l">Coins, converter</div></div>
+      <div class="stat-card"><div class="v">$0</div><div class="l">API key (converter)</div></div>
+      <div class="stat-card red"><div class="v">5</div><div class="l">Token contracts</div></div>
+    </div>
+
+    <div style="margin-top:2rem">
+      <div class="section-head">
+        <span class="num" style="color:var(--destructive);background:hsl(345 100% 45% / 0.1);border-color:hsl(345 100% 45% / 0.25)">02a</span>
+        <h2>Risk Rules</h2>
+      </div>
+      <ul class="services-list">
+        <li>3 trades/day hard cap — no new trades after cap</li>
+        <li>45-minute auto-close per trade — timer-based risk cap</li>
+        <li>Trailing stop moves up from profit only — risk cannot increase</li>
+        <li>0.01 lot fixed sizing — no adaptive sizing on low-balance ECN</li>
+        <li>Daily/weekly breakout regime filter — no trades outside regime</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SIGNALS ═══════════ -->
+<section id="signals">
+  <div class="container">
+    <div class="section-head">
+      <span class="num" style="color:var(--accent);background:hsl(212 92% 52% / 0.1);border-color:hsl(212 92% 52% / 0.25)">03</span>
+      <h2>Signals</h2>
+    </div>
+
+    <p style="color:var(--muted-fg);max-width:700px;margin-bottom:1.2rem">
+      The signal layer across Pine Script, MT5, and a standalone web dashboard — same strategy, three surfaces, one webhook router.
+    </p>
+
+    <div class="two-col">
+      <div class="card blue">
+        <div class="icon">📈</div>
+        <h3>Pine Script v5 Signal Panel</h3>
+        <p>TradingView indicator painting SMA crossover BUY/SELL markers (green/red) on chart + ML Optimal RSI layer (OB 70 / OS 30) with its own BUY/SELL markers.</p>
+        <p>4 alert conditions emit JSON for the webhook router: SMA BUY/SELL and RSI BUY/SELL — each includes symbol, action, price, strategy, timestamp.</p>
+        <p style="margin-top:.6rem"><a href="#" style="color:var(--accent)">JO_SNO_SignalPanel_pine.txt &rarr;</a></p>
+      </div>
+      <div class="card blue">
+        <div class="icon">🕹️</div>
+        <h3>Standalone Web Dashboard</h3>
+        <p>Dark TradingView-style UI: canvas candlesticks, SMA fast (blue) / slow (red) lines, BUY/SELL markers, RSI markers, watchlist sidebar, ML Optimal RSI panel.</p>
+        <p>Signal logic layer (<code>detectSignals</code> / <code>calcSMA</code> / <code>calcRSI</code>) is real and works on any candle array — swap the simulated data generator for a live API.</p>
+        <p style="margin-top:.6rem"><a href="#" style="color:var(--accent)">JO_SNO_SignalPanel_web.html &rarr;</a></p>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:1.2rem">
+      <div class="card blue">
+        <div class="icon">⚙️</div>
+        <h3>MT5 Indicator (4 arrow buffers)</h3>
+        <p>4 arrow buffers: SMA BUY (green up-arrow), SMA SELL (red down-arrow), RSI BUY (blue up-arrow), RSI SELL (gold down-arrow).</p>
+        <p>SMA lines drawn as OBJ_TREND chart objects (blue fast / red slow). Alert popups fire on each crossover; push notifications enabled via MT5 settings.</p>
+        <p>Indicator paints signals — does not place trades. Companion EA reads <code>iCustom()</code> values or alerts feed the webhook/external executor.</p>
+        <p style="margin-top:.6rem"><a href="#" style="color:var(--accent)">JO_SNO_SignalPanel_mq5.mq5 &rarr;</a></p>
+      </div>
+      <div class="card">
+        <div class="icon">🔗</div>
+        <h3 style="color:var(--accent);font-size:1.25rem">Webhook Router</h3>
+        <p style="color:var(--muted-fg)">Signal-to-webhook execution router receives Pine alert JSON, validates it, checks whitelist / position limits / rate rules / regime filter / duplicate suppression, then decides: execute via API, queue for review, or ignore.</p>
+        <p style="color:var(--muted-fg)">Deterministic rules engine first, ML regime filter later. Every decision logged to audit + state (open positions, recent actions per symbol, cooldowns).</p>
+        <p style="margin-top:.6rem"><a href="#" style="color:var(--accent)">signal_router.py &rarr;</a></p>
+      </div>
+    </div>
+
+    <div class="conv-quote" style="margin-top:1.4rem">
+      <div class="q" style="cursor:pointer" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth',block:'start'})">
+        <div style="font-size:1.6rem;color:var(--accent)">⚡</div>
+        <div>
+          <div class="k" style="font-family:ui-monospace,monospace;font-size:.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:.06em">Live converter</div>
+          <div class="v" style="font-family:ui-monospace,monospace;font-size:1rem;color:var(--foreground)">Convert USD → any tracked asset, free, no API key</div>
+        </div>
+        <div class="visits" style="margin-left:auto">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PERFORMANCE ═══════════ -->
+<section id="performance">
+  <div class="container">
+    <div class="section-head">
+      <span class="num" style="color:var(--destructive);background:hsl(345 100% 45% / 0.1);border-color:hsl(345 100% 45% / 0.25)">04</span>
+      <h2>Performance</h2>
+    </div>
+
+    <p style="color:var(--muted-fg);max-width:700px;margin-bottom:1.2rem">
+      Snapshot of the desk — strategy, execution, and converter metrics. These are design targets and live tool stats, not backtested guarantees.
+    </p>
+
+    <div class="team-grid">
+      <div class="team-card blue">
+        <div class="accent-line"></div>
+        <div class="label">Blue Desk · Strategy</div>
+        <h3>Signal Metrics</h3>
+        <p>Strategy coverage across three platforms, four alert conditions, SMA crossover + ML Optimal RSI.</p>
+        <div class="stats">
+          <div class="stat"><div class="v blue">3</div><div class="l">Platforms</div></div>
+          <div class="stat"><div class="v blue">4</div><div class="l">Alert conditions</div></div>
+          <div class="stat"><div class="v blue">2</div><div class="l">Signal layers</div></div>
+          <div class="stat"><div class="v blue">10/30</div><div class="l">SMA lengths</div></div>
+        </div>
+      </div>
+
+      <div class="team-card red">
+        <div class="accent-line"></div>
+        <div class="label" style="color:var(--destructive)">Red Desk · Execution</div>
+        <h3>Execution Targets</h3>
+        <p>Low-balance ECN sizing, daily trade cap, time-based auto-close, trailing stop from profit.</p>
+        <div class="stats">
+          <div class="stat"><div class="v red">0.01</div><div class="l">Lot size</div></div>
+          <div class="stat"><div class="v red">3</div><div class="l">Trades / day</div></div>
+          <div class="stat"><div class="v red">45m</div><div class="l">Auto-close</div></div>
+          <div class="stat"><div class="v red">3</div><div class="l">Assets</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TOOLS ═══════════ -->
+<section id="tools">
+  <div class="container">
+    <div class="section-head">
+      <span class="num" style="color:var(--accent);background:hsl(212 92% 52% / 0.1);border-color:hsl(212 92% 52% / 0.25)">05</span>
+      <h2>Tools</h2>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:1rem">Live Crypto Converter</h2>
+        <p style="color:var(--muted-fg);max-width:480px;margin-bottom:1rem;font-family:var(--app-font-sans)">
+          Convert USD to any tracked asset using live CoinGecko rates — no API key, no sign-up. Rates refresh automatically.
+        </p>
+        <div class="converter-wrap">
+          <div class="converter-bar">
+            <div class="led" id="convLed"></div>
+            <span class="title">FX TERMINAL</span>
+            <span id="convPulse" style="color:var(--muted-fg)">loading</span>
+            <div class="spacer"></div>
+            <span style="color:var(--muted-fg)">v1 · coingecko</span>
+          </div>
+          <div class="converter-body">
+            <div class="conv-fields">
+              <div class="conv-field">
+                <label for="convAmt">Amount (USD)</label>
+                <input id="convAmt" type="text" inputmode="decimal" value="1000" autocomplete="off">
+                <div class="sub">USD amount to convert</div>
+              </div>
+              <button class="conv-swap" id="convSwap" title="refresh rates">↻</button>
+              <div class="conv-field">
+                <label for="convCoin">Convert to</label>
+                <select id="convCoin"></select>
+                <div class="sub" id="convSub">destination asset</div>
+              </div>
+            </div>
+            <div class="conv-result" id="convResult">
+              <div class="big" id="convBig">—</div>
+              <div class="rate" id="convRate">rates loading…</div>
+            </div>
+            <button class="conv-btn" id="convBtn">Convert</button>
+            <div class="conv-quote">
+              <div class="q"><div class="k">Last USD</div><div class="v" id="qRate">—</div></div>
+              <div class="q"><div class="k">24h</div><div class="v" id="qChange">—</div></div>
+              <div class="q"><div class="k">24h volume</div><div class="v" id="qVol">—</div></div>
+              <div class="q"><div class="k">Market cap</div><div class="v" id="qMcap">—</div></div>
+            </div>
+            <div class="conv-leader">
+              <h3>Top by market cap</h3>
+              <div class="list" id="convLeader"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="grid-3">
+          <div class="card blue">
+            <div class="icon">📈</div>
+            <h3>Pine Signal Panel</h3>
+            <p>SMA crossover + ML Optimal RSI, 4 alert conditions, TradingView v5.</p>
+            <span class="tag blue">Signals</span>
+          </div>
+          <div class="card blue">
+            <div class="icon">🕹️</div>
+            <h3>Web Dashboard</h3>
+            <p>Canvas candlesticks, SMA lines, BUY/SELL + RSI markers, watchlist.</p>
+            <span class="tag blue">Signals</span>
+          </div>
+          <div class="card">
+            <div class="icon">⚙️</div>
+            <h3>MT5 Indicator</h3>
+            <p>4 arrow buffers, OBJ_TREND SMA lines, alert popups.</p>
+            <span class="tag">Signals</span>
+          </div>
+          <div class="card">
+            <div class="icon">🔗</div>
+            <h3>Webhook Router</h3>
+            <p>Validates, filters, routes Pine alert JSON. Rules engine + audit.</p>
+            <span class="tag">Execution</span>
+          </div>
+          <div class="card red">
+            <div class="icon">💳</div>
+            <h3>Cold Wallet Guide</h3>
+            <p>DIY + industry cold wallet build and distribution guide.</p>
+            <span class="tag red">Security</span>
+          </div>
+          <div class="card red">
+            <div class="icon">📟</div>
+            <h3>ColdVault Architecture</h3>
+            <p>Hardware wallet design for 200 coins, signed firmware updates.</p>
+            <span class="tag red">Hardware</span>
+          </div>
+        </div>
+
+        <div class="widget-wrap" style="margin-top:1.3rem">
+          <h4>Live Crypto Prices (via Cryptohopper)</h4>
+          <div class="cryptohopper-web-widget"
+               data-id="1"
+               data-chart_color="#a000c8"
+               data-table_columns="name,price_usd"
+               data-coins="bitcoin,ethereum,xrp,bnb,monero,zcash"
+               data-table_style="dark"
+               data-realtime="on"></div>
+          <script src="https://www.cryptohopper.com/widgets/js/script"></script>
+        </div>
+
+        <div style="margin-top:1.3rem">
+          <h2 style="font-size:1.2rem;font-weight:700;margin-bottom:.7rem">Tokens</h2>
+          <p style="color:var(--muted-fg);font-size:.88rem;margin-bottom:1rem;font-family:var(--app-font-sans)">
+            JO &amp; SNO NETWORK token family — Solana, Ethereum, BNB, Polygon.
+            <a href="https://coinfactory.app" target="_blank" style="color:var(--accent)">CoinFactory &rarr;</a>
+          </p>
+          <div class="token-grid">
+            <a href="https://coinfactory.app/tokens/solana/Deh8JjWZBD3TAxTyioXCPo3kpQTpvPaHFPA7PGr5TEnn" target="_blank" class="token-card">
+              <img class="logo" src="JSN Solana.jpg" alt="JSN Solana">
+              <div class="info">
+                <h4>JO &amp; SNO NETWORK</h4>
+                <div class="chain">Solana</div>
+                <div class="addr">Deh8JjWZBD3TAxTyioXCPo3kpQTpvPaHFPA7PGr5TEnn</div>
+              </div>
+              <div class="visits">→</div>
+            </a>
+            <a href="https://coinfactory.app/tokens/ethereum/0xa39d93c6f361732c048c6e39ab3cbbad8acf1a21" target="_blank" class="token-card">
+              <img class="logo" src="JSN logo Red.png" alt="JSN ETH">
+              <div class="info">
+                <h4>JO &amp; SNO NETWORK ETH</h4>
+                <div class="chain">Ethereum</div>
+                <div class="addr">0xa39d93c6f361732c048c6e39ab3cbbad8acf1a21</div>
+              </div>
+              <div class="visits red">→</div>
+            </a>
+            <a href="https://coinfactory.app/tokens/bsc/0xd359e040c14e2b00988983e01dc312b463026456" target="_blank" class="token-card">
+              <img class="logo" src="Jo&SnoBNB.jpg" alt="JSN BNB">
+              <div class="info">
+                <h4>JO &amp; SNO NETWORK BNB</h4>
+                <div class="chain">Binance (BSC)</div>
+                <div class="addr">0xd359e040c14e2b00988983e01dc312b463026456</div>
+              </div>
+              <div class="visits">→</div>
+            </a>
+            <a href="https://coinfactory.app/tokens/solana/ENEUF1Cfz1WYQfyMiC5FRcYkxo3UASob17t7ohUsx74Z" target="_blank" class="token-card">
+              <img class="logo" src="aya token green yellow.jpg" alt="AYA Solana">
+              <div class="info">
+                <h4>AYA Token</h4>
+                <div class="chain">Solana</div>
+                <div class="addr">ENEUF1Cfz1WYQfyMiC5FRcYkxo3UASob17t7ohUsx74Z</div>
+              </div>
+              <div class="visits red">→</div>
+            </a>
+            <a href="https://coinfactory.app/tokens/matic/0x7133c23f46f4dae77908c5ee70a33e57b5e2b5e2b58a" target="_blank" class="token-card">
+              <img class="logo" src="aya token purple yellow.jpg" alt="AYA POLY">
+              <div class="info">
+                <h4>AYA Token POLY</h4>
+                <div class="chain">Polygon</div>
+                <div class="addr">0x7133c23f46f4dae77908c5ee70a33e57b5e2b5e2b58a</div>
+              </div>
+              <div class="visits">→</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">06</span>
+      <h2>Contact</h2>
+    </div>
+    <div class="two-col">
+      <div class="contact-card">
+        <h3>Get In Touch</h3>
+        <p><a href="mailto:JO.SNO.MINING@GMAIL.COM">📧 JO.SNO.MINING@GMAIL.COM</a></p>
+        <p><a href="tel:+15550000000">📞 (555) DONTU-CALLME</a></p>
+        <div class="social">
+          <a href="https://www.instagram.com/jo_and_sno_mining_llc/" target="_blank">📷 Instagram</a>
+          <a href="https://www.facebook.com/jo_and_sno_mining_llc/" target="_blank">👍 Facebook</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="icon">📝</div>
+        <h3>Collaborate</h3>
+        <p style="color:var(--muted-fg)">Signal panel builds, EA strategy integration, converter embedding, cold wallet guide distribution, token project links, and grant/partnership inquiries.</p>
+        <p style="margin-top:.4rem"><a href="jo-n-sno-mining_rms.html" style="color:var(--accent)">← Back to main JO &amp; SNO MINING site</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="container">
+    <div class="legal">&copy; 2026 JO &amp; SNO MINING, LLC. All rights reserved.</div>
+    <p style="font-size: .8rem;">
+      Crypto/Metals Day Trading · Breakout Strategies · SMA Crossover Signals · ECN Execution · Live Converter · Trading Desk (extension of jo-n-sno-mining.github.io)
+    </p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── Converter (live CoinGecko rates) ── */
+const COINS = [
+  {id:'bitcoin', sym:'BTC', name:'Bitcoin'},
+  {id:'ethereum', sym:'ETH', name:'Ethereum'},
+  {id:'solana', sym:'SOL', name:'Solana'},
+  {id:'bnb', sym:'BNB', name:'BNB'},
+  {id:'xrp', sym:'XRP', name:'XRP'},
+  {id:'usd-coin', sym:'USDC', name:'USD Coin'},
+  {id:'cardano', sym:'ADA', name:'Cardano'},
+  {id:'dogecoin', sym:'DOGE', name:'Dogecoin'},
+  {id:'avalanche-2', sym:'AVAX', name:'Avalanche'},
+  {id:'chainlink', sym:'LINK', name:'Chainlink'},
+  {id:'polygon', sym:'POL', name:'Polygon'},
+  {id:'polkadot', sym:'DOT', name:'Polkadot'},
+  {id:'litecoin', sym:'LTC', name:'Litecoin'},
+  {id:'tron', sym:'TRON', name:'TRON'},
+  {id:'bitcoin-cash', sym:'BCH', name:'Bitcoin Cash'},
+  {id:'uniswap', sym:'UNI', name:'Uniswap'},
+  {id:'dai', sym:'DAI', name:'Dai'},
+  {id:'ethereum-classic', sym:'ETC', name:'Ethereum Classic'},
+  {id:'stellar', sym:'XLM', name:'Stellar'},
+];
+const USD_IDS = COINS.map(c=>c.id);
+const rates = {};
+let topList = [];
+let selectedCoinId = 'ethereum';
+
+const $ = id => document.getElementById(id);
+const fmtUSD = n => n==null ? '—' : n.toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits: n<1 ? 2 : n>=1000 ? 2 : 4});
+const fmtNum = n => n==null ? '—' : n.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtPct = n => n==null ? '—' : (n>=0 ? '+' : '') + n.toFixed(2) + '%';
+const toast = (m, ms=1800) => {
+  const t=$('toast'); t.textContent=m; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'), ms);
+};
+
+async function fetchRates(){
+  try {
+    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${USD_IDS.join(',')}&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true&include_market_cap=true`;
+    const r = await fetch(url, { headers:{'User-Agent':'JOSnoTradingDesk/1.0'} });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const j = await r.json();
+    rates = {};
+    for(const id of USD_IDS){
+      const v = j[id];
+      if(v && v.usd != null) rates[id] = { usd:v.usd, change:v.usd_24h_change, vol:v.usd_24h_vol, mcap:v.usd_market_cap };
+    }
+    buildLeader(); renderLeader();
+    $('convLed').classList.remove('off');
+    $('convPulse').textContent = 'synced ' + new Date().toLocaleTimeString();
+    updateQuote();
+    return true;
+  } catch(e){
+    console.warn('rates fetch failed', e);
+    $('convLed').classList.add('off');
+    $('convPulse').textContent = 'stale · offline rates';
+    return false;
+  }
+}
+
+function buildLeader(){
+  topList = [];
+  for(const c of COINS){
+    const r = rates[c.id];
+    if(r && r.usd != null) topList.push({ id:c.id, sym:c.sym, name:c.name, usd:r.usd, change:r.change });
+  }
+  topList.sort((a,b) => b.usd - a.usd);
+}
+
+function renderLeader(){
+  const el = $('convLeader');
+  if(!topList.length){ el.innerHTML = '<div style="color:var(--muted-fg)">no rate data yet</div>'; return; }
+  el.innerHTML = topList.map((t,i) => {
+    const up = t.change >= 0;
+    const cls = i===0 ? 'row top' : 'row';
+    return `<div class="${cls}">
+      <span><span class="sym"><b>${t.sym}</b></span><span class="name">${t.name}</span></span>
+      <span><span class="price">${fmtUSD(t.usd)}</span> <span class="chg ${up?'up':'dn'}">${fmtPct(t.change)}</span></span>
+    </div>`;
+  }).join('');
+}
+
+function populateSelect(){
+  const sel = $('convCoin');
+  sel.innerHTML = COINS.map(c => `<option value="${c.id}"${c.id===selectedCoinId?' selected':''}>${c.sym} · ${c.name}</option>`).join('');
+  sel.onchange = () => {
+    selectedCoinId = sel.value;
+    const c = COINS.find(x => x.id === selectedCoinId);
+    $('convSub').textContent = c ? `destination: ${c.sym} · ${c.name}` : 'destination asset';
+    updateQuote();
+  };
+}
+
+function updateQuote(){
+  const r = rates[selectedCoinId];
+  if(!r || r.usd == null){
+    ['qRate','qChange','qVol','qMcap'].forEach(id => { $(id).textContent='—'; $(id).style.color = 'var(--muted-fg)'; });
+    return;
+  }
+  $('qRate').textContent = fmtUSD(r.usd); $('qRate').style.color = 'var(--foreground)';
+  $('qChange').textContent = fmtPct(r.change);
+  $('qChange').style.color = r.change >= 0 ? 'hsl(142 70% 45%)' : 'var(--destructive)';
+  $('qVol').textContent = r.vol != null ? fmtUSD(r.vol) : '—'; $('qVol').style.color = 'var(--muted-fg)';
+  $('qMcap').textContent = r.mcap != null ? fmtUSD(r.mcap) : '—'; $('qMcap').style.color = 'var(--muted-fg)';
+}
+
+$('convBtn').onclick = convert;
+$('convSwap').onclick = async () => {
+  toast('refreshing rates');
+  const ok = await fetchRates();
+  if(ok){ toast('rates refreshed'); }
+  else { toast('rate refresh failed'); }
+};
+
+async function convert(){
+  const aRaw = $('convAmt').value.trim();
+  const amt = parseFloat(aRaw.replace(/[^0-9.\-]/g,''));
+  if(!isFinite(amt) || amt <= 0){ toast('enter a positive USD amount'); return; }
+  const rB = rates[selectedCoinId];
+  if(!rB || rB.usd == null){ toast('rate unavailable for ' + selectedCoinId); return; }
+  const coinAmt = amt / rB.usd;
+  const sym = COINS.find(c => c.id === selectedCoinId).sym;
+  $('convBig').textContent = `${fmtNum(coinAmt)} ${sym}`;
+  $('convRate').innerHTML = `<b>${fmtUSD(amt)}</b> USD → <b>1 ${sym}</b> = ${fmtUSD(rB.usd)} USD · rate at ${fmtUSD(rB.usd)}`;
+  toast(`${fmtUSD(amt)} USD → ${fmtNum(coinAmt)} ${sym}`);
+}
+
+/* boot */
+populateSelect();
+const c0 = COINS.find(x => x.id === selectedCoinId);
+$('convSub').textContent = c0 ? `destination: ${c0.sym} · ${c0.name}` : 'destination asset';
+$('convBig').textContent = '—';
+$('convRate').textContent = 'rates loading…';
+fetchRates().then(()=>{}).catch(()=>{});
+
+setInterval(() => {
+  const ok = fetchRates();
+  if(ok) updateQuote();
+}, 120000);
+</script>
+</body>
+</html>
