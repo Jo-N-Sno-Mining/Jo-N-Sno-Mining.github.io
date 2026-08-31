@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JO & SNO MINING, LLC — Crypto / Metals Trading · Bots · Converter</title>
+<meta name="description" content="JO & SNO MINING designs home crypto mining devices, portable USB cold wallets, runs automated day traders, and provides a live crypto converter. Web3 for the everyday customer.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="JO & SNO MINING, LLC">
+<meta property="og:description" content="Crypto/Metals Trading · Trading Bots · Home Mining · USB Cold Wallets · Live Converter">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23030712'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Teko,system-ui,sans-serif' font-size='18' font-weight='700' fill='%233b82f6' letter-spacing='1'>JS</text></svg>">
+<style>
+  /* ── Reset & base (Rams theme) ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --background:   hsl(240 10% 4%);
+    --foreground:   hsl(0 0% 95%);
+    --card:         hsl(240 10% 7%);
+    --card-fg:      hsl(0 0% 95%);
+    --card-border:  hsl(240 10% 12%);
+    --border:       hsl(240 10% 15%);
+    --muted:        hsl(240 10% 12%);
+    --muted-fg:     hsl(240 5% 62%);
+    --primary:      hsl(0 0% 100%);
+    --primary-fg:   hsl(240 10% 4%);
+    --secondary:    hsl(240 10% 12%);
+    --secondary-fg: hsl(0 0% 95%);
+    --accent:       hsl(224 92% 52%);     /* blue — Rams-style accent */
+    --accent-fg:    hsl(0 0% 100%);
+    --destructive:  hsl(345 100% 48%);
+    --destructive-fg: hsl(0 0% 100%);
+    --input:        hsl(240 10% 15%);
+    --ring:         hsl(240 10% 28%);
+    --shadow-2xs:   0px 2px 0px 0px hsl(0 0% 0% / 0.5);
+    --shadow-xs:    0px 2px 0px 0px hsl(0 0% 0% / 0.5);
+    --shadow-sm:    0px 2px 0px 0px hsl(0 0% 0% / 0.5), 0px 1px 2px -1px hsl(0 0% 0% / 0.5);
+    --shadow:       0px 2px 0px 0px hsl(0 0% 0% / 0.5), 0px 1px 2px -1px hsl(0 0% 0% / 0.5);
+    --shadow-md:    0px 2px 0px 0px hsl(0 0% 0% / 0.5), 0px 2px 4px -1px hsl(0 0% 0% / 0.5);
+    --shadow-lg:    0px 2px 0px 0px hsl(0 0% 0% / 0.5), 0px 4px 6px -1px hsl(0 0% 0% / 0.5);
+    --radius:       0.5rem;
+    --app-font-sans:   'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --app-font-display:'Teko', system-ui, sans-serif;
+    --container-sm: 24rem; --container-md: 28rem; --container-lg: 32rem;
+    --container-xl: 36rem; --container-2xl: 42rem; --container-3xl: 48rem;
+    --container-5xl: 64rem; --container-6xl: 72rem;
+    --text-xs: .75rem; --text-sm: .875rem; --text-base: 1rem;
+    --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem; --text-4xl: 2.25rem; --text-5xl: 3rem;
+    --text-6xl: 3.75rem; --text-7xl: 4.5rem; --text-8xl: 6rem;
+    --tracking-wide: .025em;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--app-font-sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--app-font-display);
+    --tw-tracking: var(--tracking-wide);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  code, kbd, pre, samp { font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace; }
+
+  .container { width: 100%; max-width: var(--container-6xl); margin-inline: auto; padding-inline: 1.5rem; }
+
+  .glow-blue  { box-shadow: 0 0 20px 2px hsl(212 92% 43% / 0.4); }
+  .glow-red   { box-shadow: 0 0 20px 2px hsl(345 100% 45% / 0.4); }
+  .text-glow-blue  { text-shadow: 0 0 10px hsl(212 92% 43% / 0.8); }
+  .text-glow-red   { text-shadow: 0 0 10px hsl(345 100% 45% / 0.8); }
+
+  /* ── Nav ── */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(12px);
+    background: hsl(240 10% 4% / 0.78);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 1rem 0;
+    flex-wrap: wrap;
+  }
+  .brand {
+    font-family: var(--app-font-display);
+    font-size: 1.5rem; font-weight: 700;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: .5rem;
+    text-shadow: 0 0 12px hsl(212 92% 52% / 0.5);
+  }
+  .brand .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 14px var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .45; transform: scale(.72); }
+  }
+  .brand .accent { color: var(--accent); }
+  nav.links { margin-left: auto; display: flex; gap: .25rem; flex-wrap: wrap; }
+  nav.links a {
+    padding: .5rem .9rem;
+    border-radius: 999px;
+    font-size: .8rem; font-weight: 500;
+    color: var(--muted-fg);
+    transition: background .15s, color .15s, border-color .15s;
+    font-family: var(--app-font-sans);
+    border: 1px solid transparent;
+  }
+  nav.links a:hover {
+    background: hsl(240 10% 12% / 0.6);
+    color: var(--foreground);
+  }
+  nav.links a.active { color: var(--accent); border-color: hsl(212 92% 52% / 0.25); }
+  nav.links a.ext {
+    color: var(--accent);
+    border-color: hsl(212 92% 52% / 0.2);
+    background: hsl(212 92% 52% / 0.06);
+    font-weight: 600;
+  }
+  nav.links a.ext:hover {
+    background: hsl(212 92% 52% / 0.12);
+    box-shadow: 0 0 14px hsl(212 92% 52% / 0.2);
+  }
+
+  /* ── Hero ── */
+  .hero { padding: 5rem 0 3rem; text-align: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .75rem; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent);
+    background: hsl(212 92% 52% / 0.08);
+    border: 1px solid hsl(212 92% 52% / 0.25);
+    padding: .4rem 1rem; border-radius: 999px;
+    margin-bottom: 1.25rem;
+    font-family: var(--app-font-sans);
+  }
+  .eyebrow .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    margin-bottom: 1rem;
+  }
+  .hero h1 .highlight {
+    color: var(--accent);
+    text-shadow: 0 0 16px hsl(212 92% 52% / 0.5);
+  }
+  .hero .sub {
+    max-width: 640px; margin: 0 auto 1.5rem;
+    color: var(--muted-fg); font-size: 1.1rem;
+    font-family: var(--app-font-sans);
+  }
+  .hero .meta-row {
+    display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+    margin-top: 2rem; color: var(--muted-fg); font-size: .92rem;
+    font-family: var(--app-font-sans);
+  }
+  .meta-row strong { color: var(--foreground); }
+
+  /* ── Section frame ── */
+  section { padding: 3rem 0; border-top: 1px solid var(--border); }
+  section:first-of-type { border-top: none; }
+  .section-head {
+    display: flex; align-items: baseline; gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .section-head h2 {
+    font-size: 1.875rem;
+  }
+  .section-head .num {
+    font-size: .75rem; font-weight: 600;
+    color: var(--accent);
+    background: hsl(212 92% 52% / 0.1);
+    border: 1px solid hsl(212 92% 52% / 0.25);
+    padding: .2rem .7rem; border-radius: 6px;
+    font-family: var(--app-font-sans);
+    letter-spacing: .08em;
+  }
+
+  /* ── Two-col layout ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem; align-items: start;
+  }
+  @media (max-width: 760px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Cards ── */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .card .icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: grid; place-items: center;
+    background: hsl(212 92% 52% / 0.08);
+    color: var(--accent); font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .card h3 { font-size: 1.25rem; margin-bottom: .4rem; }
+  .card p { color: var(--muted-fg); font-size: .95rem; }
+  .card .tag {
+    display: inline-block; margin-top: .75rem;
+    font-size: .7rem; font-weight: 600;
+    padding: .2rem .6rem; border-radius: 4px;
+    background: hsl(142 70% 45% / 0.12);
+    color: hsl(142 70% 45%);
+    font-family: var(--app-font-sans);
+    letter-spacing: .04em;
+  }
+
+  /* ── Services list ── */
+  .services-list {
+    list-style: none;
+    display: grid; gap: .6rem;
+  }
+  .services-list li {
+    display: flex; align-items: center; gap: .75rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: .85rem 1.1rem;
+    font-weight: 500;
+    font-size: .92rem;
+    box-shadow: var(--shadow-xs);
+    font-family: var(--app-font-sans);
+  }
+  .services-list li::before {
+    content: '✓';
+    color: hsl(142 70% 45%);
+    font-weight: 700;
+    width: 22px; height: 22px; display: grid; place-items: center;
+    background: hsl(142 70% 45% / 0.1);
+    border-radius: 50%;
+    font-size: .8rem;
+    flex-shrink: 0;
+  }
+
+  /* ── Tokens table ── */
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .token-card {
+    display: flex; align-items: center; gap: 1rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .token-card:hover {
+    border-color: hsl(212 92% 52% / 0.5);
+    box-shadow: var(--shadow-md);
+  }
+  .token-card .logo {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--muted);
+    object-fit: cover;
+    border: 1px solid var(--border);
+  }
+  .token-card .info { flex: 1; min-width: 0; }
+  .token-card .info h4 {
+    font-size: 1rem; font-weight: 700;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: var(--app-font-sans);
+    text-transform: none; letter-spacing: 0;
+  }
+  .token-card .info .chain {
+    font-size: .75rem; color: var(--muted-fg);
+    text-transform: uppercase; letter-spacing: .06em;
+    font-family: var(--app-font-sans);
+  }
+  .token-card .info .addr {
+    font-size: .7rem; color: var(--muted-fg);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    word-break: break-all; margin-top: .25rem;
+  }
+  .token-card .visits {
+    color: var(--accent); font-weight: 600; font-size: .95rem;
+    text-shadow: 0 0 8px hsl(212 92% 52% / 0.4);
+  }
+
+  /* ── Mining showcase ── */
+  .mining-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .mine-item {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.2rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .mine-item::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, hsl(212 92% 52%), var(--accent), hsl(142 70% 45%));
+  }
+  .mine-item .emoji { font-size: 2.4rem; margin-bottom: .75rem; }
+  .mine-item h4 { font-size: 1.25rem; margin-bottom: .3rem; }
+  .mine-item p { font-size: .85rem; color: var(--muted-fg); }
+
+  /* ── About ── */
+  .about-text {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+  }
+  .about-text p { color: var(--muted-fg); margin-bottom: 1rem; font-family: var(--app-font-sans); }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-text strong { color: var(--foreground); }
+
+  /* ── Contact ── */
+  .contact-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    display: grid; gap: 1rem;
+    box-shadow: var(--shadow);
+  }
+  .contact-card h3 { font-size: 1.5rem; }
+  .contact-card a { color: var(--accent); word-break: break-all; }
+  .contact-card a:hover { color: var(--foreground); }
+  .contact-card .social {
+    display: flex; gap: .75rem; flex-wrap: wrap; margin-top: .5rem;
+  }
+  .contact-card .social a {
+    padding: .5rem 1rem; border-radius: 999px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    font-size: .85rem; font-weight: 500;
+    transition: border-color .15s, color .15s;
+    font-family: var(--app-font-sans);
+  }
+  .contact-card .social a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0;
+    margin-top: 2rem;
+    text-align: center;
+    color: var(--muted-fg);
+    font-size: .85rem;
+    font-family: var(--app-font-sans);
+  }
+  footer .legal { margin-bottom: .75rem; }
+
+  /* ── Widget ── */
+  .widget-wrap {
+    margin-top: 1.5rem;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    background: var(--card);
+    box-shadow: var(--shadow);
+  }
+  .widget-wrap h4 {
+    margin-bottom: .75rem; font-size: .95rem; color: var(--muted-fg);
+    font-family: var(--app-font-sans);
+  }
+
+  /* ── Misc ── */
+  .badge {
+    display: inline-block; font-size: .7rem; font-weight: 700;
+    padding: .15rem .55rem; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: .08em;
+    font-family: var(--app-font-sans);
+  }
+  .badge.green  { background: hsl(142 70% 45% / 0.15); color: hsl(142 70% 45%); }
+  .badge.blue   { background: hsl(212 92% 52% / 0.15); color: var(--accent); }
+  .badge.amber  { background: hsl(34 95% 50% / 0.15); color: hsl(34 95% 50%); }
+  .badge.red    { background: hsl(345 100% 45% / 0.15); color: var(--destructive); }
+  .divider { height: 1px; background: var(--border); margin: 2.5rem 0; }
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .7rem 1.3rem;
+    border-radius: 999px;
+    font-weight: 600; font-size: .85rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    transition: background .15s, color .15s;
+    font-family: var(--app-font-sans);
+    letter-spacing: .02em;
+  }
+  .btn:hover { background: var(--accent); color: var(--primary); }
+  .swap-row { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1rem; align-items: center; }
+  .swap-row .label { color: var(--muted-fg); font-size: .85rem; font-family: var(--app-font-sans); }
+  .swap-row a {
+    padding: .6rem 1.1rem;
+    border-radius: 999px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    font-weight: 500;
+    color: var(--foreground);
+    transition: border-color .15s, color .15s;
+    font-size: .85rem;
+    font-family: var(--app-font-sans);
+  }
+  .swap-row a:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── Converter panel (Rams-themed terminal extension) ── */
+  .converter-wrap {
+    margin-top: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .converter-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: hsl(240 10% 7% / 0.8);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: .7rem; letter-spacing: .06em;
+    color: var(--muted-fg);
+    text-transform: uppercase;
+  }
+  .converter-bar .led {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 10px var(--accent);
+    transition: background .2s, box-shadow .2s;
+  }
+  .converter-bar .led.off {
+    background: var(--muted-fg); box-shadow: none;
+  }
+  .converter-bar .spacer { flex: 1; }
+  .converter-bar .title {
+    color: var(--accent); font-weight: 600;
+    letter-spacing: .1em;
+    text-shadow: 0 0 8px hsl(212 92% 52% / 0.4);
+  }
+  .converter-body { padding: 20px 22px 22px; }
+
+  .conv-fields {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 14px; align-items: end;
+  }
+  @media (max-width: 560px) {
+    .conv-fields { grid-template-columns: 1fr; gap: 10px; }
+    .conv-swap { align-self: center; }
+  }
+  .conv-field { display: flex; flex-direction: column; gap: 6px; }
+  .conv-field label {
+    font-size: .65rem; color: var(--muted-fg);
+    letter-spacing: .08em; text-transform: uppercase;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-weight: 600;
+  }
+  .conv-field input, .conv-field select {
+    background: hsl(240 10% 4% / 0.6);
+    border: 1px solid var(--border);
+    color: var(--foreground);
+    padding: .65rem .75rem;
+    border-radius: 6px;
+    font-size: .95rem; font-family: inherit;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    width: 100%;
+  }
+  .conv-field input:focus, .conv-field select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px hsl(212 92% 52% / 0.18),
+                0 0 14px hsl(212 92% 52% / 0.1);
+  }
+  .conv-field select {
+    appearance: none; cursor: pointer;
+    background-image: linear-gradient(45deg, transparent 50%, var(--muted-fg) 50%),
+                     linear-gradient(135deg, var(--muted-fg) 50%, transparent 50%);
+    background-position: calc(100% - 14px) 50%, calc(100% - 10px) 50%;
+    background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+    padding-right: 30px;
+    background-color: hsl(240 10% 4% / 0.6);
+  }
+  .conv-field .sub { font-size: .7rem; color: var(--muted-fg); }
+  .conv-swap {
+    align-self: end;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: hsl(240 10% 4% / 0.6);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; transition: .15s;
+    box-shadow: var(--shadow-xs);
+  }
+  .conv-swap:hover {
+    border-color: var(--accent);
+    color: var(--primary);
+    background: hsl(212 92% 52% / 0.1);
+    box-shadow: 0 0 16px hsl(212 92% 52% / 0.25);
+  }
+  .conv-result {
+    margin-top: 14px;
+    padding: .8rem 1rem;
+    background: hsl(240 10% 4% / 0.6);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    min-height: 5rem;
+  }
+  .conv-result .big {
+    font-size: 1.3rem; color: var(--accent); font-weight: 600;
+    word-break: break-all;
+    text-shadow: 0 0 8px hsl(212 92% 52% / 0.3);
+  }
+  .conv-result .rate { color: var(--muted-fg); font-size: .75rem; margin-top: 4px; }
+  .conv-result .rate b { color: var(--foreground); }
+  .conv-btn {
+    margin-top: 12px; width: 100%;
+    padding: .65rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: hsl(240 10% 4% / 0.6);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: .04em;
+    font-size: .85rem;
+    transition: .15s;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    text-transform: uppercase;
+  }
+  .conv-btn:hover {
+    background: hsl(212 92% 52% / 0.12);
+    color: var(--primary);
+    box-shadow: 0 0 18px hsl(212 92% 52% / 0.2);
+  }
+  .conv-quote {
+    margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .conv-quote .q {
+    background: hsl(240 10% 4% / 0.6);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: .6rem .75rem;
+  }
+  .conv-quote .q .k {
+    font-size: .65rem; color: var(--muted-fg);
+    text-transform: uppercase; letter-spacing: .06em;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  .conv-quote .q .v {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: .8rem; margin-top: 2px;
+  }
+  .conv-quote .q .v.up   { color: hsl(142 70% 45%); }
+  .conv-quote .q .v.dn   { color: var(--destructive); }
+  .conv-leader { margin-top: 16px; }
+  .conv-leader h3 {
+    font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted-fg); margin-bottom: 8px; font-weight: 600;
+    font-family: var(--app-font-display);
+  }
+  .conv-leader .list {
+    max-height: 190px; overflow: auto;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: .8rem;
+    color: var(--foreground);
+  }
+  .conv-leader .list .row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0; border-bottom: 1px solid var(--border);
+  }
+  .conv-leader .list .row.top {
+    font-weight: 600; color: var(--accent);
+    text-shadow: 0 0 8px hsl(212 92% 52% / 0.3);
+  }
+  .conv-leader .list .row .sym { color: var(--foreground); font-weight: 600; }
+  .conv-leader .list .row .name { color: var(--muted-fg); margin-left: 6px; }
+  .conv-leader .list .row .price { color: var(--foreground); }
+  .conv-leader .list .row .chg { font-family: inherit; }
+  .conv-leader .list .row .chg.up   { color: hsl(142 70% 45%); }
+  .conv-leader .list .row .chg.dn   { color: var(--destructive); }
+
+  .toast {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: hsl(240 10% 7%); border: 1px solid var(--accent); color: var(--accent);
+    padding: .6rem 1rem; border-radius: 6px; font-size: .75rem;
+    opacity: 0; transition: .25s; pointer-events: none;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    z-index: 100;
+    box-shadow: 0 0 14px hsl(212 92% 52% / 0.2);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 600px) {
+    .nav { gap: .75rem; }
+    nav.links a { padding: .4rem .7rem; font-size: .75rem; }
+    .hero { padding: 3.5rem 0 2rem; }
+    section { padding: 2rem 0; }
+    .conv-quote { grid-template-columns: 1fr; }
+    .brand { font-size: 1.25rem; }
+    nav.links { gap: .15rem; }
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<header>
+  <div class="container nav">
+    <div class="brand glow-blue"><span class="dot"></span>JO &amp; SNO <span class="accent">MINING</span></div>
+    <nav class="links" aria-label="Primary">
+      <a href="#about"      class="active">About</a>
+      <a href="#trading">What We Provide</a>
+      <a href="jo-n-sno-mining_trading_rms.html" class="ext" target="_blank">Trading Desk →</a>
+      <a href="#converter">Converter</a>
+      <a href="#tokens">Tokens</a>
+      <a href="#mining">Mining Equip</a>
+      <a href="#nftz">NFTZ</a>
+      <a href="#grants">Grants</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="home">
+  <div class="container hero">
+    <span class="eyebrow"><span class="pulse"></span> Web3 · Mining · Automated Trading · Converter</span>
+    <h1>JO &amp; SNO <span class="highlight">MINING, LLC</span></h1>
+    <p class="sub">
+      A Crypto Mining company aimed to bring <strong>web3 to the everyday customer</strong>.
+      We design home mining devices, portable USB cold wallets, run automated day traders,
+      and provide a live multi-asset converter — all built around lowering the barrier to entry.
+    </p>
+    <div class="meta-row">
+      <span>🔹 <strong>Crypto / Metals Trading</strong></span>
+      <span>🔹 <strong>Trading Bots</strong></span>
+      <span>🔹 <strong>Home Mining Hardware</strong></span>
+      <span>🔹 <strong>USB Cold Wallets</strong></span>
+      <span>🔹 <strong>Live Converter</strong></span>
+      <span>🔹 <strong>Trading Desk</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">01</span>
+      <h2>What We Do</h2>
+    </div>
+    <div class="two-col">
+      <div class="about-text">
+        <p><strong>JO &amp; SNO MINING</strong> designs its own crypto mining devices for homes, along with portable USB cold wallets. Our automated day traders put us ahead of our competition.</p>
+        <p>We believe web3 should be usable by everyday people — not just institutional players. Everything we build, from hardware to trading scripts to token projects to a live converter tool, is aimed at lowering the barrier to entry.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="icon">🏠</div>
+          <h3>Home Mining Devices</h3>
+          <p>Purpose-built mining hardware designed for residential use — efficient, quiet, and accessible.</p>
+          <span class="tag">Hardware</span>
+        </div>
+        <div class="card">
+          <div class="icon">💳</div>
+          <h3>USB Cold Wallets</h3>
+          <p>Portable, offline cold storage you can carry. Secure your keys without complexity.</p>
+          <span class="tag">Security</span>
+        </div>
+        <div class="card">
+          <div class="icon">🤖</div>
+          <h3>Automated Trading</h3>
+          <p>Day trading bots and schedule scripts that run around the clock, keeping us ahead of the market.</p>
+          <span class="tag">Algos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TRADING / SERVICES ═══════════ -->
+<section id="trading">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">02</span>
+      <h2>What We Provide</h2>
+    </div>
+    <ul class="services-list">
+      <li>MONEY AS A SERVICE</li>
+      <li>Seller / Creator Marketplace &rarr; <strong>JO &amp; SNO MARKET</strong></li>
+      <li>USB Mining / Cold Wallets</li>
+      <li>Trading Schedule Scripts</li>
+      <li>Web3 Product Development</li>
+      <li>Energy as a Service</li>
+    </ul>
+
+    <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: .75rem; align-items: center;">
+      <span class="label">Swap &amp; trade:</span>
+      <div class="swap-row">
+        <a href="#converter">Crypto Converter</a>
+        <a href="jo-n-sno-mining_trading_rms.html" class="ext" target="_blank" style="color:var(--accent)">Trading Desk →</a>
+      </div>
+    </div>
+
+    <div class="widget-wrap">
+      <h4>Live Crypto Prices (via Cryptohopper)</h4>
+      <div class="cryptohopper-web-widget"
+           data-id="1"
+           data-chart_color="#a000c8"
+           data-table_columns="name,price_usd"
+           data-coins="bitcoin,ethereum,xrp,bnb,monero,zcash"
+           data-table_style="dark"
+           data-realtime="on"></div>
+      <script src="https://www.cryptohopper.com/widgets/js/script"></script>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONVERTER (Rams-themed terminal extension) ═══════════ -->
+<section id="converter">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">03</span>
+      <h2>Live Crypto Converter</h2>
+    </div>
+
+    <p style="color: var(--muted-fg); margin-bottom: 1.25rem; max-width: 640px; font-family: var(--app-font-sans);">
+      Convert USD to any tracked asset using live CoinGecko rates — no API key, no sign-up.
+      Rates refresh automatically; the panel sits inside the main site as a built-in trading utility.
+    </p>
+
+    <div class="two-col">
+      <div>
+        <div class="converter-wrap">
+          <div class="converter-bar">
+            <div class="led" id="convLed"></div>
+            <span class="title">FX TERMINAL</span>
+            <span id="convPulse">loading</span>
+            <div class="spacer"></div>
+            <span style="color:var(--muted-fg)">v1 · coingecko</span>
+          </div>
+          <div class="converter-body">
+            <div class="conv-fields">
+              <div class="conv-field">
+                <label for="convAmt">Amount (USD)</label>
+                <input id="convAmt" type="text" inputmode="decimal" value="1000" autocomplete="off">
+                <div class="sub">USD amount to convert</div>
+              </div>
+
+              <button class="conv-swap" id="convSwap" title="refresh rates">↻</button>
+
+              <div class="conv-field">
+                <label for="convCoin">Convert to</label>
+                <select id="convCoin"></select>
+                <div class="sub" id="convSub">destination asset</div>
+              </div>
+            </div>
+
+            <div class="conv-result" id="convResult">
+              <div class="big" id="convBig">—</div>
+              <div class="rate" id="convRate">rates loading…</div>
+            </div>
+
+            <button class="conv-btn" id="convBtn">Convert</button>
+
+            <div class="conv-quote">
+              <div class="q"><div class="k">Last USD</div><div class="v" id="qRate">—</div></div>
+              <div class="q"><div class="k">24h</div><div class="v" id="qChange">—</div></div>
+              <div class="q"><div class="k">24h volume</div><div class="v" id="qVol">—</div></div>
+              <div class="q"><div class="k">Market cap</div><div class="v" id="qMcap">—</div></div>
+            </div>
+
+            <div class="conv-leader">
+              <h3>Top by market cap</h3>
+              <div class="list" id="convLeader"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">⚡</div>
+        <h3>Why A Built-In Converter</h3>
+        <p>Instead of sending visitors to a third-party page, the converter lives on the main site — one more tool in the same place as trading, tokens, and mining info.</p>
+        <p style="margin-top:.6rem">Rates are indicative, sourced from a public API. Always verify before transacting.</p>
+        <span class="tag">Built-in tool</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TOKENS ═══════════ -->
+<section id="tokens">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">04</span>
+      <h2>JO &amp; SNO NETWORK · Tokens</h2>
+    </div>
+    <p style="color: var(--muted-fg); margin-bottom: 1.25rem; font-family: var(--app-font-sans);">
+      Our token family across Solana, Ethereum, BNB, and Polygon.
+      <a href="https://coinfactory.app" target="_blank" style="color: var(--accent);">View on CoinFactory &rarr;</a>
+    </p>
+
+    <div class="token-grid">
+      <a href="https://coinfactory.app/tokens/solana/Deh8JjWZBD3TAxTyioXCPo3kpQTpvPaHFPA7PGr5TEnn" target="_blank" class="token-card">
+        <img class="logo" src="JSN Solana.jpg" alt="JO & SNO NETWORK (Solana)" title="JSN">
+        <div class="info">
+          <h4>JO &amp; SNO NETWORK</h4>
+          <div class="chain">Solana</div>
+          <div class="addr">Deh8JjWZBD3TAxTyioXCPo3kpQTpvPaHFPA7PGr5TEnn</div>
+        </div>
+        <div class="visits">→</div>
+      </a>
+
+      <a href="https://coinfactory.app/tokens/ethereum/0xa39d93c6f361732c048c6e39ab3cbbad8acf1a21" target="_blank" class="token-card">
+        <img class="logo" src="JSN logo Red.png" alt="JO & SNO NETWORK (ETH)" title="JSNETH">
+        <div class="info">
+          <h4>JO &amp; SNO NETWORK ETH</h4>
+          <div class="chain">Ethereum</div>
+          <div class="addr">0xa39d93c6f361732c048c6e39ab3cbbad8acf1a21</div>
+        </div>
+        <div class="visits">→</div>
+      </a>
+
+      <a href="https://coinfactory.app/tokens/bsc/0xd359e040c14e2b00988983e01dc312b463026456" target="_blank" class="token-card">
+        <img class="logo" src="Jo&SnoBNB.jpg" alt="JO & SNO NETWORK (BNB)" title="JSNBNB">
+        <div class="info">
+          <h4>JO &amp; SNO NETWORK BNB</h4>
+          <div class="chain">Binance (BSC)</div>
+          <div class="addr">0xd359e040c14e2b00988983e01dc312b463026456</div>
+        </div>
+        <div class="visits">→</div>
+      </a>
+
+      <a href="https://coinfactory.app/tokens/solana/ENEUF1Cfz1WYQfyMiC5FRcYkxo3UASob17t7ohUsx74Z" target="_blank" class="token-card">
+        <img class="logo" src="aya token green yellow.jpg" alt="AYA Token (Solana)" title="AYA">
+        <div class="info">
+          <h4>AYA Token</h4>
+          <div class="chain">Solana</div>
+          <div class="addr">ENEUF1Cfz1WYQfyMiC5FRcYkxo3UASob17t7ohUsx74Z</div>
+        </div>
+        <div class="visits">→</div>
+      </a>
+
+      <a href="https://coinfactory.app/tokens/matic/0x7133c23f46f4dae77908c5ee70a33e57b5e2b5e2b58a" target="_blank" class="token-card">
+        <img class="logo" src="aya token purple yellow.jpg" alt="AYA Token POLY" title="AYAP">
+        <div class="info">
+          <h4>AYA Token POLY</h4>
+          <div class="chain">Polygon</div>
+          <div class="addr">0x7133c23f46f4dae77908c5ee70a33e57b5e2b5e2b58a</div>
+        </div>
+        <div class="visits">→</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ MINING EQUIPMENT ═══════════ -->
+<section id="mining">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">05</span>
+      <h2>Mining Equipment</h2>
+    </div>
+    <div class="mining-grid">
+      <div class="mine-item">
+        <div class="emoji">🔌</div>
+        <h4>USB / WIFI Mining</h4>
+        <p>Plug-and-play USB mining devices that work over WiFi — ideal for home setups and beginners.</p>
+      </div>
+      <div class="mine-item">
+        <div class="emoji">❄️</div>
+        <h4>Liquid Cooling Mining</h4>
+        <p>High-performance rigs with liquid cooling for efficiency and longevity under sustained loads.</p>
+      </div>
+      <div class="mine-item">
+        <div class="emoji">☀️</div>
+        <h4>Solar Energy Mining</h4>
+        <p>Sustainable mining powered by solar — reduce grid dependence and run greener operations.</p>
+      </div>
+      <div class="mine-item">
+        <div class="emoji">🔐</div>
+        <h4>Custom Cold Wallets</h4>
+        <p>We create our own cold wallets — offline, portable, and built with security-first design.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ NFTZ ═══════════ -->
+<section id="nftz">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">06</span>
+      <h2>NFTZ</h2>
+    </div>
+    <div class="two-col">
+      <div class="about-text">
+        <p><strong>JO &amp; SNO NFTZ</strong> — our NFT collection on OpenSea. Explore the collection and see what we're building in the NFT space.</p>
+        <p style="margin-top: 1rem;">
+          <a href="https://opensea.io/collection/jo-and-sno-nftz" target="_blank" class="btn">
+            View on OpenSea →
+          </a>
+        </p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div class="icon" style="font-size: 2.4rem;">🎨</div>
+        <h3>JO &amp; SNO NFTZ</h3>
+        <p>Coming soon — mint here. Follow our socials for drop announcements.</p>
+        <span class="badge amber" style="margin-top: .75rem;">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ GRANTS ═══════════ -->
+<section id="grants">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">07</span>
+      <h2>Grants</h2>
+    </div>
+    <div class="about-text">
+      <p>JO &amp; SNO MINING is open to grants and partnerships that advance web3 access, home mining, and energy-efficient crypto infrastructure. If you're running a grant program and align with our mission, reach out.</p>
+      <p style="margin-top: 1rem;">
+        <a href="#contact" class="btn">Contact for Grants →</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="section-head">
+      <span class="num">08</span>
+      <h2>Contact Us</h2>
+    </div>
+    <div class="contact-card">
+      <h3>Get In Touch</h3>
+      <p><a href="mailto:JO.SNO.MINING@GMAIL.COM">📧 JO.SNO.MINING@GMAIL.COM</a></p>
+      <p><a href="tel:+15550000000">📞 (555) DONTU-CALLME</a></p>
+      <div class="social">
+        <a href="https://www.instagram.com/jo_and_sno_mining_llc/" target="_blank">📷 Instagram</a>
+        <a href="https://www.facebook.com/jo_and_sno_mining_llc/" target="_blank">👍 Facebook</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="container">
+    <div class="legal">
+      &copy; 2026 JO &amp; SNO MINING, LLC. All rights reserved.
+    </div>
+    <p style="font-size: .8rem;">
+      Crypto/Metals Trading · Trading Bots · Home Mining · USB Cold Wallets · Web3 Products · Live Converter · Trading Desk
+    </p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── Converter: live rates from CoinGecko, Rams-themed terminal panel ── */
+const COINS = [
+  {id:'bitcoin', sym:'BTC', name:'Bitcoin'},
+  {id:'ethereum', sym:'ETH', name:'Ethereum'},
+  {id:'solana', sym:'SOL', name:'Solana'},
+  {id:'bnb', sym:'BNB', name:'BNB'},
+  {id:'xrp', sym:'XRP', name:'XRP'},
+  {id:'usd-coin', sym:'USDC', name:'USD Coin'},
+  {id:'cardano', sym:'ADA', name:'Cardano'},
+  {id:'dogecoin', sym:'DOGE', name:'Dogecoin'},
+  {id:'avalanche-2', sym:'AVAX', name:'Avalanche'},
+  {id:'chainlink', sym:'LINK', name:'Chainlink'},
+  {id:'polygon', sym:'POL', name:'Polygon'},
+  {id:'matic-network', sym:'MATIC', name:'Polygon (MATIC)'},
+  {id:'polkadot', sym:'DOT', name:'Polkadot'},
+  {id:'litecoin', sym:'LTC', name:'Litecoin'},
+  {id:'tron', sym:'TRON', name:'TRON'},
+  {id:'bitcoin-cash', sym:'BCH', name:'Bitcoin Cash'},
+  {id:'uniswap', sym:'UNI', name:'Uniswap'},
+  {id:'dai', sym:'DAI', name:'Dai'},
+  {id:'ethereum-classic', sym:'ETC', name:'Ethereum Classic'},
+  {id:'stellar', sym:'XLM', name:'Stellar'},
+];
+const USD_IDS = COINS.map(c=>c.id);
+const rates = {};
+let topList = [];
+let selectedCoinId = 'ethereum';
+
+const $ = id => document.getElementById(id);
+const fmtUSD = n => n==null ? '—' : n.toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits: n<1 ? 2 : n>=1000 ? 2 : 4});
+const fmtNum = n => n==null ? '—' : n.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtPct = n => n==null ? '—' : (n>=0 ? '+' : '') + n.toFixed(2) + '%';
+const toast = (m, ms=1800) => {
+  const t=$('toast'); t.textContent=m; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'), ms);
+};
+
+async function fetchRates(){
+  try {
+    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${USD_IDS.join(',')}&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true&include_market_cap=true`;
+    const r = await fetch(url, { headers:{'User-Agent':'JOSnoMining/1.0'} });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const j = await r.json();
+    rates = {};
+    for(const id of USD_IDS){
+      const v = j[id];
+      if(v && v.usd != null) rates[id] = { usd:v.usd, change:v.usd_24h_change, vol:v.usd_24h_vol, mcap:v.usd_market_cap };
+    }
+    buildLeader();
+    renderLeader();
+    $('convLed').classList.remove('off');
+    $('convPulse').textContent = 'synced ' + new Date().toLocaleTimeString();
+    updateQuote();
+    return true;
+  } catch(e){
+    console.warn('rates fetch failed', e);
+    $('convLed').classList.add('off');
+    $('convPulse').textContent = 'stale · offline rates';
+    return false;
+  }
+}
+
+function buildLeader(){
+  topList = [];
+  for(const c of COINS){
+    const r = rates[c.id];
+    if(r && r.usd != null) topList.push({ id:c.id, sym:c.sym, name:c.name, usd:r.usd, change:r.change });
+  }
+  topList.sort((a,b) => b.usd - a.usd);
+}
+
+function renderLeader(){
+  const el = $('convLeader');
+  if(!topList.length){ el.innerHTML = '<div style="color:var(--muted-fg)">no rate data yet</div>'; return; }
+  el.innerHTML = topList.map((t,i) => {
+    const up = t.change >= 0;
+    const cls = i===0 ? 'row top' : 'row';
+    return `<div class="${cls}">
+      <span><span class="sym"><b>${t.sym}</b></span><span class="name">${t.name}</span></span>
+      <span><span class="price">${fmtUSD(t.usd)}</span> <span class="chg ${up?'up':'dn'}">${fmtPct(t.change)}</span></span>
+    </div>`;
+  }).join('');
+}
+
+function populateSelect(){
+  const sel = $('convCoin');
+  sel.innerHTML = COINS.map(c => `<option value="${c.id}"${c.id===selectedCoinId?' selected':''}>${c.sym} · ${c.name}</option>`).join('');
+  sel.onchange = () => {
+    selectedCoinId = sel.value;
+    const c = COINS.find(x => x.id === selectedCoinId);
+    $('convSub').textContent = c ? `destination: ${c.sym} · ${c.name}` : 'destination asset';
+    updateQuote();
+  };
+}
+
+function updateQuote(){
+  const r = rates[selectedCoinId];
+  if(!r || r.usd == null){
+    ['qRate','qChange','qVol','qMcap'].forEach(id => { $(id).textContent='—'; $(id).style.color = 'var(--muted-fg)'; });
+    return;
+  }
+  $('qRate').textContent = fmtUSD(r.usd); $('qRate').style.color = 'var(--foreground)';
+  $('qChange').textContent = fmtPct(r.change);
+  $('qChange').style.color = r.change >= 0 ? 'hsl(142 70% 45%)' : 'var(--destructive)';
+  $('qVol').textContent = r.vol != null ? fmtUSD(r.vol) : '—'; $('qVol').style.color = 'var(--muted-fg)';
+  $('qMcap').textContent = r.mcap != null ? fmtUSD(r.mcap) : '—'; $('qMcap').style.color = 'var(--muted-fg)';
+}
+
+$('convBtn').onclick = convert;
+$('convSwap').onclick = async () => {
+  toast('refreshing rates');
+  const ok = await fetchRates();
+  if(ok){ toast('rates refreshed'); }
+  else { toast('rate refresh failed'); }
+};
+
+async function convert(){
+  const aRaw = $('convAmt').value.trim();
+  const amt = parseFloat(aRaw.replace(/[^0-9.\-]/g,''));
+  if(!isFinite(amt) || amt <= 0){ toast('enter a positive USD amount'); return; }
+  const rB = rates[selectedCoinId];
+  if(!rB || rB.usd == null){ toast('rate unavailable for ' + selectedCoinId); return; }
+  const coinAmt = amt / rB.usd;
+  const sym = COINS.find(c => c.id === selectedCoinId).sym;
+  $('convBig').textContent = `${fmtNum(coinAmt)} ${sym}`;
+  $('convRate').innerHTML = `<b>${fmtUSD(amt)}</b> USD → <b>1 ${sym}</b> = ${fmtUSD(rB.usd)} USD · rate at ${fmtUSD(rB.usd)}`;
+  toast(`${fmtUSD(amt)} USD → ${fmtNum(coinAmt)} ${sym}`);
+}
+
+/* boot */
+populateSelect();
+const c0 = COINS.find(x => x.id === selectedCoinId);
+$('convSub').textContent = c0 ? `destination: ${c0.sym} · ${c0.name}` : 'destination asset';
+$('convBig').textContent = '—';
+$('convRate').textContent = 'rates loading…';
+fetchRates().then(()=>{}).catch(()=>{});
+
+setInterval(() => {
+  const ok = fetchRates();
+  if(ok) updateQuote();
+}, 120000);
+
+/* refresh rates when the Converter nav link is used */
+document.querySelectorAll('nav.links a').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if(href && href.startsWith('#')){
+      e.preventDefault();
+      document.querySelectorAll('nav.links a').forEach(x => { x.classList.remove('active'); });
+      a.classList.add('active');
+      const el = document.querySelector(href);
+      if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
