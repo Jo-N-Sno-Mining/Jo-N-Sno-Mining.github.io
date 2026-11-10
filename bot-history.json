@@ -1,0 +1,101 @@
+[
+  {
+    "timestamp": "2026-10-22T12:30:04.577Z",
+    "symbol": "ETHFI",
+    "address": "0xFe0c30065B384F05761f15d0CC899D4F9F9Cc0eB",
+    "amountUSD": 1.04,
+    "price": 0.673,
+    "txid": "0x09a47f51eab47d66557d9e5ca5c8b707b6e2535ccac194348403f683ba9c0e41",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2026-10-21T22:29:24.925Z",
+    "symbol": "MNT",
+    "address": "0x3c3a81e81dc49A522A592e7622A7E711c06bf354",
+    "amountUSD": 1.29,
+    "price": 0.5537,
+    "txid": "0xaf341da80aa7a09e59051bc33b2086bdb0c56171b83678aa05984b6a43e3d82b",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2026-10-21T18:29:29.065Z",
+    "symbol": "SAND",
+    "address": "0x3845badAde8e6dFF049820680d1F14bD3903a5d0",
+    "amountUSD": 1.24,
+    "price": 0.0004538,
+    "txid": "0x2863d7c906f2e8f8017f1978528c4277ddb08a010ba69b8086fafd26d9f5a3a7",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2026-10-21T14:29:28.772Z",
+    "symbol": "STORJ",
+    "address": "0xB64ef51C888972c908CFacf59B47C1AfBC0Ab8aC",
+    "amountUSD": 1.25,
+    "price": 0.02362,
+    "txid": "0xa51403597b4f93b1d953870861c11a3f026735cfa54d75ff7edd8957ec6d83d3",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2026-10-21T12:29:28.512Z",
+    "symbol": "PEPE",
+    "address": "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
+    "amountUSD": 1.08,
+    "price": 2.187e-9,
+    "txid": "0x8b16c566930359f5044ea7444a7875ff46a4be3bb0d272971d37603d83830dad",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2026-10-21T07:29:52.594Z",
+    "symbol": "DOLO",
+    "address": "0x0F81001eF0A83ecCE5ccebf63EB302c70a39a654",
+    "amountUSD": 1.09,
+    "price": 0.02478,
+    "txid": "0x39dde9125e432f57aa7733fa3c498770b601f36d8fa98003cf7260df0898c72e",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2026-10-21T05:29:27.935Z",
+    "symbol": "SD",
+    "address": "0x30D20208d987713f46DFD34EF128Bb16C404D10f",
+    "amountUSD": 1.03,
+    "price": 0.1163,
+    "txid": "0x72cd567dc8251f80cd552675ff5e7ba8207d4c6f3218002b5c3f50583d765c3e",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2026-10-21T03:29:27.899Z",
+    "symbol": "MASK",
+    "address": "0x69af81e73A73B40adF4f3d4223Cd9b1ECE623074",
+    "amountUSD": 1.18,
+    "price": 0.002989,
+    "txid": "0x45f00265816d01ebe49c231489646fe3551f57850698e2819f101c02211bb5a3",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2026-10-21T01:29:27.869Z",
+    "symbol": "CHZ",
+    "address": "0x3506424F91fD33084466F402d5D97f05F8e3b4AF",
+    "amountUSD": 1.02,
+    "price": 0.0001364,
+    "txid": "0xdb92855f61258b798e40c756ec32a0fc8f8b9d8df6d1687ec3076a67ab15207b",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2026-10-20T21:29:37.731Z",
+    "symbol": "BLUR",
+    "address": "0x5283D291DBCF85356A21bA090E6db59121208b44",
+    "amountUSD": 1.08,
+    "price": 0.009099,
+    "txid": "0x2cfcdfc0d4c97247864040e8425562d9ebb22f73f07c46b0eaaf6b21930920c4",
+    "status": "Success"
+  },
+  {
+    "timestamp": "2026-10-20T19:29:39.647Z",
+    "symbol": "DIA",
+    "address": "0x84cA8bc7997272c7CfB4D0Cd3D55cd942B3c9419",
+    "amountUSD": 1.02,
+    "price": 0.000442,
+    "txid": "0x91ecbac5218dfa2bb6128e9ada6d4674b425514d3faa07c85c1b4bf133c3d81c",
+    "status": "Success"
+  }
+]

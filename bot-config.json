@@ -1,0 +1,12 @@
+{
+  "maxTokenPrice": 1.10,
+  "minBuyUSD": 1.00,
+  "maxBuyUSD": 1.30,
+  "maxGasFeeUSD": 1.00,
+  "minOrganicScore": 75,
+  "excludeMemecoins": true,
+  "excludeDuplicates": true,
+  "excludeStablecoins": true,
+  "stablecoinMinPrice": 0.98,
+  "stablecoinMaxPrice": 1.02
+}
